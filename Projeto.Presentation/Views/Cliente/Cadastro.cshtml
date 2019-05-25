@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "Cadastro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts{
+
+    <script>
+
+        //iniciar o jquery..
+        //ao carregar a página..
+        $(document).ready(function () {
+
+            //criando um evento que será executado
+            //quando o botão for clicado..
+            $("#btncadastro").click(function () {
+
+                //apagar as mensagens da página..
+                $("#erronome").html("");
+                $("#erroemail").html("");
+                $("#mensagem").html("");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Cliente/CadastrarCliente",
+                    data: {
+                        Nome: $("#nome").val(),
+                        Email: $("#email").val()
+                    },
+                    success: function (msg) { //promisse
+
+                        //imprimindo a mensagem..
+                        $("#mensagemsucesso").html(msg);
+
+                        //abrindo a modal
+                        $("#janela").modal("toggle");
+
+                        //limpar os campos
+                        $("#nome").val("");
+                        $("#email").val("");
+                    },
+                    error: function (e) { //promisse
+                        
+                        if(e.status == 400){
+
+                            var erros = e.responseJSON;
+
+                            $("#erronome").html(erros.Nome);
+                            $("#erroemail").html(erros.Email);
+                        }
+                        else if (e.status == 500) {
+
+                            $("#mensagemerro").html(e.responseText);
+
+                            $("#janelaerro").modal("toggle");
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+    
+}
+
+<h4>Cadastro de Clientes</h4>
+<a href="/Home/Index">Voltar</a>
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+
+        <label>Nome do Cliente:</label>
+        <input type="text" class="form-control"
+               id="nome" placeholder="Digite aqui"/>
+        <span id="erronome" class="text-danger"></span>
+        <br/>
+
+        <label>Email:</label>
+        <input type="text" class="form-control"
+               id="email" placeholder="Digite aqui" />
+        <span id="erroemail" class="text-danger"></span>
+        <br />
+
+        <input type="button" value="Cadastrar Cliente"
+               id="btncadastro" class="btn btn-primary"/>
+       
+    </div>
+</div>
+
+<div id="janela" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h3 class="text-white">Operação realizada com sucesso</h3>
+            </div>
+            <div class="modal-body text-center">
+                <h5 id="mensagemsucesso"></h5>
+                <hr/>
+                <button class="btn btn-success" data-dismiss="modal">
+                    Ok
+                </button>
+            </div>            
+        </div>
+    </div>
+</div>
+
+<div id="janelaerro" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h3 class="text-white">Erro ao executar a operação</h3>
+            </div>
+            <div class="modal-body text-center">
+                <h5 id="mensagemerro"></h5>
+                <hr />
+                <button class="btn btn-danger" data-dismiss="modal">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

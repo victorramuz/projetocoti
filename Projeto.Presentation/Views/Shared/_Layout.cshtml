@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Projeto</title>
+
+    <!-- folha de estilo CSS -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        .modal-dialog {
+            min-height: calc(100vh - 60px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: auto;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+
+        <h2>Sistema de Gestão de Clientes</h2>
+        <hr />
+
+        @RenderBody()
+
+    </div>
+
+    <!-- bibliotecas javascript -->
+    <script src="~/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>
